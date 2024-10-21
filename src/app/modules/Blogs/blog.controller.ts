@@ -7,7 +7,7 @@ const createBlog = catchAsync(async (req: Request, res: Response) => {
   const result = await projectService.createBlogIntoDB(req.body, image);
   res.status(200).json({
     success: true,
-    message: "Recipe is created successfully!",
+    message: "Blog is created successfully!",
     data: result,
   });
 });
@@ -20,7 +20,7 @@ const updateBlog = catchAsync(async (req: Request, res: Response) => {
   );
   res.status(200).json({
     success: true,
-    message: "Recipe is updated successfully!",
+    message: "Blog is updated successfully!",
     data: result,
   });
 });
@@ -29,7 +29,7 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
   const result = await projectService.deleteBlogIntoDB(req.params.id);
   res.status(200).json({
     success: true,
-    message: "Recipe is deleted successfully!",
+    message: "Blog is deleted successfully!",
     data: result,
   });
 });
@@ -41,7 +41,7 @@ const partialUpdateBlog = catchAsync(async (req: Request, res: Response) => {
   );
   res.status(200).json({
     success: true,
-    message: "Recipe status successfully updated!",
+    message: "Blog status successfully updated!",
     data: result,
   });
 });
@@ -50,8 +50,8 @@ const getBlog = catchAsync(async (req: Request, res: Response) => {
   const result = await projectService.getBlogFromDB(req.query);
   res.status(200).json({
     success: true,
-    message: "Recipe successfully get!",
-    data: result.recipes,
+    message: "Blog successfully get!",
+    data: result.blogs,
     dataLength: result.dataLength,
   });
 });

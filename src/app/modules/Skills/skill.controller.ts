@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { projectService } from "./project.service";
+import { projectService } from "./skill.service";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;

@@ -2,8 +2,8 @@
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
 import { User } from "../user/user.model";
-import { IProject } from "./project.interface";
-import { Project } from "./project.modal";
+import { Project } from "./skill.modal";
+import { IProject } from "./skill.interface";
 
 const createProjectIntoDB = async (payload: IProject, image: any) => {
   const recipeData = {

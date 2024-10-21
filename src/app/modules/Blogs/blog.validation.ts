@@ -6,7 +6,7 @@ const projectValidationSchema = z.object({
     description: z.string().nonempty({ message: "Description is required" }),
     user: z.string().min(1, { message: "User is required" }),
     rank: z.number().optional(),
-    tags: z.string().min(1, { message: "Tags is required" }),
+    tags: z.array(z.string()),
   }),
 });
 
@@ -16,7 +16,7 @@ const updateProjectValidationSchema = z.object({
     description: z.string().optional(),
     user: z.string().min(1, { message: "User is required" }),
     rank: z.string().optional(),
-    tags: z.string().min(1, { message: "Tags is required" }),
+    tags: z.array(z.string()).optional(),
   }),
 });
 

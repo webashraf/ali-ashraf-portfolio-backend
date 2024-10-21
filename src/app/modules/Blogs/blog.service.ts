@@ -128,7 +128,7 @@ const getBlogFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { recipes: filedLimitQuery, dataLength: allRecipe?.length };
+  return { blogs: filedLimitQuery, dataLength: allRecipe?.length };
 };
 
 export const projectService = {

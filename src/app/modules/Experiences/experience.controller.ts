@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { projectService } from "./project.service";
+import { projectService } from "./experience.service";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
@@ -10,7 +10,9 @@ const createProject = catchAsync(async (req: Request, res: Response) => {
     message: "Project is created successfully!",
     data: result,
   });
+  
 });
+// experience
 const updateProject = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
   const result = await projectService.updateProjectIntoDB(

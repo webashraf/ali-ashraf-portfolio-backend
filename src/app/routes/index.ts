@@ -18,6 +18,14 @@ const appRoutes = [
   },
 
   {
+    path: "/skill",
+    route: blogRouters,
+  },
+  {
+    path: "/experience",
+    route: blogRouters,
+  },
+  {
     path: "/blog",
     route: blogRouters,
   },
