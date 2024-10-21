@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authRoutes } from "../modules/Auth/auth.routes";
+import { blogRouters } from "../modules/Blogs/blog.routes";
 import { userOpinionRoutes } from "../modules/ProjectComments/comments.routes";
 import { projectRouters } from "../modules/Projects/project.routes";
 import { userRoutes } from "../modules/user/user.routes";
@@ -16,6 +17,10 @@ const appRoutes = [
     route: authRoutes,
   },
 
+  {
+    path: "/blog",
+    route: blogRouters,
+  },
   {
     path: "/project",
     route: projectRouters,

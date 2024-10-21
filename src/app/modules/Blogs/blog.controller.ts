@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { projectService } from "./project.service";
+import { projectService } from "./blog.service";
 
-const createProject = catchAsync(async (req: Request, res: Response) => {
+const createBlog = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.createProjectIntoDB(req.body, image);
+  const result = await projectService.createBlogIntoDB(req.body, image);
   res.status(200).json({
     success: true,
     message: "Recipe is created successfully!",
     data: result,
   });
 });
-const updateProject = catchAsync(async (req: Request, res: Response) => {
+const updateBlog = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.updateProjectIntoDB(
+  const result = await projectService.updateBlogIntoDB(
     req.params.id,
     req.body,
     image
@@ -25,8 +25,8 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const deleteProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.deleteProjectIntoDB(req.params.id);
+const deleteBlog = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.deleteBlogIntoDB(req.params.id);
   res.status(200).json({
     success: true,
     message: "Recipe is deleted successfully!",
@@ -34,8 +34,8 @@ const deleteProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const partialUpdateProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.updateProjectPartialInfo(
+const partialUpdateBlog = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.updateBlogPartialInfo(
     req.params.id,
     req.query
   );
@@ -46,8 +46,8 @@ const partialUpdateProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.getRecipeFromDB(req.query);
+const getBlog = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.getBlogFromDB(req.query);
   res.status(200).json({
     success: true,
     message: "Recipe successfully get!",
@@ -56,10 +56,10 @@ const getProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const projectController = {
-  getProject,
-  createProject,
-  updateProject,
-  deleteProject,
-  partialUpdateProject,
+export const blogController = {
+  getBlog,
+  createBlog,
+  updateBlog,
+  deleteBlog,
+  partialUpdateBlog,
 };

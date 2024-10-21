@@ -2,10 +2,10 @@
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
 import { User } from "../user/user.model";
-import { IProject } from "./project.interface";
-import { Project } from "./project.modal";
+import { IBlog } from "./blog.interface";
+import { Blog } from "./blog.modal";
 
-const createProjectIntoDB = async (payload: IProject, image: any) => {
+const createBlogIntoDB = async (payload: IBlog, image: any) => {
   const recipeData = {
     ...payload,
     imageUrl: image,
@@ -18,13 +18,13 @@ const createProjectIntoDB = async (payload: IProject, image: any) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const res = await Project.create(recipeData);
+  const res = await Blog.create(recipeData);
   return res;
 };
 
-const updateProjectIntoDB = async (
+const updateBlogIntoDB = async (
   rId: string,
-  payload: Partial<IProject>,
+  payload: Partial<IBlog>,
   image?: any
 ) => {
   const isUserExist = await User.isUserExistById(payload.user as any);
@@ -39,7 +39,7 @@ const updateProjectIntoDB = async (
   };
 
   // Find and update the recipe
-  const updatedRecipe = await Project.findByIdAndUpdate(rId, recipeData, {
+  const updatedRecipe = await Blog.findByIdAndUpdate(rId, recipeData, {
     new: true,
     runValidators: true,
   });
@@ -51,8 +51,8 @@ const updateProjectIntoDB = async (
   return updatedRecipe;
 };
 
-const deleteProjectIntoDB = async (id: string) => {
-  const res = await Project.findByIdAndUpdate(
+const deleteBlogIntoDB = async (id: string) => {
+  const res = await Blog.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true, runValidators: true, upsert: true }
@@ -61,14 +61,14 @@ const deleteProjectIntoDB = async (id: string) => {
   return res;
 };
 
-const updateProjectPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Project.findById(id);
+const updateBlogPartialInfo = async (id: string, query: any) => {
+  const isRecipeExist: any = await Blog.findById(id);
 
   if (!isRecipeExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
   }
 
-  const res = await Project.findByIdAndUpdate(id, query, {
+  const res = await Blog.findByIdAndUpdate(id, query, {
     new: true,
     runValidators: true,
     upsert: true,
@@ -76,7 +76,7 @@ const updateProjectPartialInfo = async (id: string, query: any) => {
   return res;
 };
 
-const getRecipeFromDB = async (query: Record<string, unknown>) => {
+const getBlogFromDB = async (query: Record<string, unknown>) => {
   const filterQueryItems: any = {
     ...query,
   };
@@ -88,13 +88,13 @@ const getRecipeFromDB = async (query: Record<string, unknown>) => {
   if (query?.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const searchQuery = Project.find({
+  const searchQuery = Blog.find({
     $or: ["title", "technologies"].map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   });
 
-  const allRecipe = await Project.find();
+  const allRecipe = await Blog.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -132,9 +132,9 @@ const getRecipeFromDB = async (query: Record<string, unknown>) => {
 };
 
 export const projectService = {
-  getRecipeFromDB,
-  updateProjectIntoDB,
-  createProjectIntoDB,
-  deleteProjectIntoDB,
-  updateProjectPartialInfo,
+  getBlogFromDB,
+  updateBlogIntoDB,
+  createBlogIntoDB,
+  deleteBlogIntoDB,
+  updateBlogPartialInfo,
 };
