@@ -1,65 +1,65 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { projectService } from "./skill.service";
+import { skillService } from "./skill.service";
 
-const createProject = catchAsync(async (req: Request, res: Response) => {
+const createSkill = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.createProjectIntoDB(req.body, image);
+  const result = await skillService.createSkillIntoDB(req.body, image);
   res.status(200).json({
     success: true,
-    message: "Project is created successfully!",
+    message: "Skill is created successfully!",
     data: result,
   });
 });
-const updateProject = catchAsync(async (req: Request, res: Response) => {
+const updateSkill = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.updateProjectIntoDB(
+  const result = await skillService.updateSkillIntoDB(
     req.params.id,
     req.body,
     image
   );
   res.status(200).json({
     success: true,
-    message: "Project is updated successfully!",
+    message: "Skill is updated successfully!",
     data: result,
   });
 });
 
-const deleteProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.deleteProjectIntoDB(req.params.id);
+const deleteSkill = catchAsync(async (req: Request, res: Response) => {
+  const result = await skillService.deleteSkillIntoDB(req.params.id);
   res.status(200).json({
     success: true,
-    message: "Project is deleted successfully!",
+    message: "Skill is deleted successfully!",
     data: result,
   });
 });
 
-const partialUpdateProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.updateProjectPartialInfo(
+const partialUpdateSkill = catchAsync(async (req: Request, res: Response) => {
+  const result = await skillService.updateSkillPartialInfo(
     req.params.id,
     req.query
   );
   res.status(200).json({
     success: true,
-    message: "Project status successfully updated!",
+    message: "Skill status successfully updated!",
     data: result,
   });
 });
 
-const getProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.getProjectFromDB(req.query);
+const getSkill = catchAsync(async (req: Request, res: Response) => {
+  const result = await skillService.getSkillFromDB(req.query);
   res.status(200).json({
     success: true,
-    message: "Project successfully get!",
-    data: result.projects,
+    message: "Skill successfully get!",
+    data: result.Skills,
     dataLength: result.dataLength,
   });
 });
 
-export const projectController = {
-  getProject,
-  createProject,
-  updateProject,
-  deleteProject,
-  partialUpdateProject,
+export const skillController = {
+  getSkill,
+  createSkill,
+  updateSkill,
+  deleteSkill,
+  partialUpdateSkill,
 };

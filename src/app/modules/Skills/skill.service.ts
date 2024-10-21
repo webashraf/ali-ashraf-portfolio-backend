@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
-import { User } from "../user/user.model";
-import { Project } from "./skill.modal";
-import { IProject } from "./skill.interface";
+import { ISkill } from "./skill.interface";
+import { Skill } from "./skill.modal";
 
-const createProjectIntoDB = async (payload: IProject, image: any) => {
+const createSkillIntoDB = async (payload: ISkill, image: any) => {
   const recipeData = {
     ...payload,
     imageUrl: image,
@@ -13,24 +12,24 @@ const createProjectIntoDB = async (payload: IProject, image: any) => {
     updatedAt: new Date(),
   };
 
-  const isUserExist = await User.isUserExistById(payload.user as any);
-  if (!isUserExist) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
-  }
+  // const isUserExist = await User.isUserExistById(payload.user as any);
+  // if (!isUserExist) {
+  //   throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
+  // }
 
-  const res = await Project.create(recipeData);
+  const res = await Skill.create(recipeData);
   return res;
 };
 
-const updateProjectIntoDB = async (
+const updateSkillIntoDB = async (
   rId: string,
-  payload: Partial<IProject>,
+  payload: Partial<ISkill>,
   image?: any
 ) => {
-  const isUserExist = await User.isUserExistById(payload.user as any);
-  if (!isUserExist) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
-  }
+  // const isUserExist = await User.isUserExistById(payload.user as any);
+  // if (!isUserExist) {
+  //   throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
+  // }
 
   const recipeData = {
     ...payload,
@@ -39,7 +38,7 @@ const updateProjectIntoDB = async (
   };
 
   // Find and update the recipe
-  const updatedRecipe = await Project.findByIdAndUpdate(rId, recipeData, {
+  const updatedRecipe = await Skill.findByIdAndUpdate(rId, recipeData, {
     new: true,
     runValidators: true,
   });
@@ -51,8 +50,8 @@ const updateProjectIntoDB = async (
   return updatedRecipe;
 };
 
-const deleteProjectIntoDB = async (id: string) => {
-  const res = await Project.findByIdAndUpdate(
+const deleteSkillIntoDB = async (id: string) => {
+  const res = await Skill.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true, runValidators: true, upsert: true }
@@ -61,14 +60,14 @@ const deleteProjectIntoDB = async (id: string) => {
   return res;
 };
 
-const updateProjectPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Project.findById(id);
+const updateSkillPartialInfo = async (id: string, query: any) => {
+  const isRecipeExist: any = await Skill.findById(id);
 
   if (!isRecipeExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
   }
 
-  const res = await Project.findByIdAndUpdate(id, query, {
+  const res = await Skill.findByIdAndUpdate(id, query, {
     new: true,
     runValidators: true,
     upsert: true,
@@ -76,7 +75,7 @@ const updateProjectPartialInfo = async (id: string, query: any) => {
   return res;
 };
 
-const getProjectFromDB = async (query: Record<string, unknown>) => {
+const getSkillFromDB = async (query: Record<string, unknown>) => {
   const filterQueryItems: any = {
     ...query,
   };
@@ -88,13 +87,13 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
   if (query?.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const searchQuery = Project.find({
+  const searchQuery = Skill.find({
     $or: ["title", "technologies"].map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   });
 
-  const allRecipe = await Project.find();
+  const allRecipe = await Skill.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -128,13 +127,13 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { projects: filedLimitQuery, dataLength: allRecipe?.length };
+  return { Skills: filedLimitQuery, dataLength: allRecipe?.length };
 };
 
-export const projectService = {
-  getProjectFromDB,
-  updateProjectIntoDB,
-  createProjectIntoDB,
-  deleteProjectIntoDB,
-  updateProjectPartialInfo,
+export const skillService = {
+  getSkillFromDB,
+  updateSkillIntoDB,
+  createSkillIntoDB,
+  deleteSkillIntoDB,
+  updateSkillPartialInfo,
 };

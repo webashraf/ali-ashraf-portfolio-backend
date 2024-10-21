@@ -2,7 +2,7 @@ import { Router } from "express";
 import { multerUpload } from "../../config/multer.config";
 import { parseBody } from "../../middleware/parseBody";
 import validateRequest from "../../middleware/validateRequest";
-import { projectController } from "./skill.controller";
+import { skillController } from "./skill.controller";
 import { projectValidations } from "./skill.validation";
 
 const router = Router();
@@ -12,19 +12,19 @@ router.post(
   multerUpload.single("image"),
   parseBody,
   validateRequest(projectValidations.projectValidationSchema),
-  projectController.createProject
+  skillController.createSkill
 );
 router.put(
   "/update-project/:id",
   multerUpload.single("image"),
   parseBody,
   validateRequest(projectValidations.updateProjectValidationSchema),
-  projectController.updateProject
+  skillController.updateSkill
 );
-router.delete("/:id", projectController.deleteProject);
-router.put("/status/:id", projectController.partialUpdateProject);
+router.delete("/:id", skillController.deleteSkill);
+router.put("/status/:id", skillController.partialUpdateSkill);
 
-router.get("/", projectController.getProject);
-router.get("/my-project/:id", projectController.getProject);
+router.get("/", skillController.getSkill);
+router.get("/my-project/:id", skillController.getSkill);
 
-export const projectRouters = router;
+export const skillRouters = router;

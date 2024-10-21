@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
-import { User } from "../user/user.model";
-import { IProject } from "./experience.interface";
-import { Project } from "./experience.modal";
+import { IExperience } from "./experience.interface";
+import { Experience } from "./experience.modal";
 
-const createProjectIntoDB = async (payload: IProject, image: any) => {
+const createExperienceIntoDB = async (payload: IExperience, image: any) => {
   const recipeData = {
     ...payload,
     imageUrl: image,
@@ -13,25 +12,15 @@ const createProjectIntoDB = async (payload: IProject, image: any) => {
     updatedAt: new Date(),
   };
 
-  const isUserExist = await User.isUserExistById(payload.user as any);
-  if (!isUserExist) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
-  }
-
-  const res = await Project.create(recipeData);
+  const res = await Experience.create(recipeData);
   return res;
 };
 
-const updateProjectIntoDB = async (
+const updateExperienceIntoDB = async (
   rId: string,
-  payload: Partial<IProject>,
+  payload: Partial<IExperience>,
   image?: any
 ) => {
-  const isUserExist = await User.isUserExistById(payload.user as any);
-  if (!isUserExist) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
-  }
-
   const recipeData = {
     ...payload,
     ...(image && { imageUrl: image }),
@@ -39,7 +28,7 @@ const updateProjectIntoDB = async (
   };
 
   // Find and update the recipe
-  const updatedRecipe = await Project.findByIdAndUpdate(rId, recipeData, {
+  const updatedRecipe = await Experience.findByIdAndUpdate(rId, recipeData, {
     new: true,
     runValidators: true,
   });
@@ -51,8 +40,8 @@ const updateProjectIntoDB = async (
   return updatedRecipe;
 };
 
-const deleteProjectIntoDB = async (id: string) => {
-  const res = await Project.findByIdAndUpdate(
+const deleteExperienceIntoDB = async (id: string) => {
+  const res = await Experience.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true, runValidators: true, upsert: true }
@@ -61,14 +50,14 @@ const deleteProjectIntoDB = async (id: string) => {
   return res;
 };
 
-const updateProjectPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Project.findById(id);
+const updateExperiencePartialInfo = async (id: string, query: any) => {
+  const isRecipeExist: any = await Experience.findById(id);
 
   if (!isRecipeExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
   }
 
-  const res = await Project.findByIdAndUpdate(id, query, {
+  const res = await Experience.findByIdAndUpdate(id, query, {
     new: true,
     runValidators: true,
     upsert: true,
@@ -76,7 +65,7 @@ const updateProjectPartialInfo = async (id: string, query: any) => {
   return res;
 };
 
-const getProjectFromDB = async (query: Record<string, unknown>) => {
+const getExperienceFromDB = async (query: Record<string, unknown>) => {
   const filterQueryItems: any = {
     ...query,
   };
@@ -88,13 +77,13 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
   if (query?.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const searchQuery = Project.find({
+  const searchQuery = Experience.find({
     $or: ["title", "technologies"].map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   });
 
-  const allRecipe = await Project.find();
+  const allRecipe = await Experience.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -128,13 +117,13 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { projects: filedLimitQuery, dataLength: allRecipe?.length };
+  return { Experiences: filedLimitQuery, dataLength: allRecipe?.length };
 };
 
-export const projectService = {
-  getProjectFromDB,
-  updateProjectIntoDB,
-  createProjectIntoDB,
-  deleteProjectIntoDB,
-  updateProjectPartialInfo,
+export const experienceService = {
+  getExperienceFromDB,
+  updateExperienceIntoDB,
+  createExperienceIntoDB,
+  deleteExperienceIntoDB,
+  updateExperiencePartialInfo,
 };

@@ -1,19 +1,17 @@
-import { ObjectId } from "mongoose";
-
-export interface IProject {
-  title: string;
-  description: string;
-  frontendCode: string;
-  user: ObjectId;
-  backendCode: string;
-  liveLink: string;
-  imageUrl: string;
-  color: string;
+export interface IExperience {
+  jobTitle: string;
+  companyName: string;
+  companyLogoUrl?: string;
+  location?: string;
+  startDate: Date;
+  endDate?: Date;
+  responsibilities: string[];
+  skills: string[];
+  description?: string;
+  websiteUrl?: string;
   rank: number;
-  features: string[];
-  technologies: string[];
-  createdAt: string;
-  updatedAt: string;
-  isPublished: boolean;
-  isDeleted: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  isPublished?: boolean;
+  isDeleted?: boolean;
 }

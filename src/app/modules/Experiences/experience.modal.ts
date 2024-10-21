@@ -1,96 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { model, Schema } from "mongoose";
-import { IProject } from "./experience.interface";
+import mongoose from "mongoose";
+import { IExperience } from "./experience.interface";
 
-const projectSchema: Schema<IProject> = new Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
+const experienceSchema = new mongoose.Schema<IExperience>(
+  {
+    jobTitle: { type: String, required: true },
+    companyName: { type: String, required: true },
+    companyLogoUrl: { type: String, default: null },
+    location: { type: String, default: null },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, default: null },
+    responsibilities: { type: [String], required: true },
+    skills: { type: [String], required: true },
+    description: { type: String, default: null },
+    websiteUrl: { type: String, default: null },
+    rank: { type: Number, required: true },
+    createdAt: { type: String, default: Date.now },
+    updatedAt: { type: String, default: Date.now },
+    isPublished: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false },
   },
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+  { timestamps: true }
+);
 
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  frontendCode: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  backendCode: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  liveLink: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  color: {
-    type: String,
-    required: false,
-  },
-  rank: {
-    type: Number,
-    required: false,
-  },
-  features: {
-    type: [String],
-    required: true,
-  },
-  technologies: {
-    type: [String],
-    required: true,
-  },
-  createdAt: {
-    type: String,
-    default: new Date().toString(),
-  },
-  updatedAt: {
-    type: String,
-    default: new Date().toString(),
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
-  isPublished: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-export const Project = model<IProject>("Project", projectSchema);
+export const Experience = mongoose.model<IExperience>(
+  "Experience",
+  experienceSchema
+);

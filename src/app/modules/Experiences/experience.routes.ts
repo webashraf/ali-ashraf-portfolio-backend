@@ -2,29 +2,29 @@ import { Router } from "express";
 import { multerUpload } from "../../config/multer.config";
 import { parseBody } from "../../middleware/parseBody";
 import validateRequest from "../../middleware/validateRequest";
-import { projectController } from "./experience.controller";
+import { experienceController } from "./experience.controller";
 import { projectValidations } from "./experience.validation";
 
 const router = Router();
 
 router.post(
-  "/create-project",
+  "/create-experience",
   multerUpload.single("image"),
   parseBody,
   validateRequest(projectValidations.projectValidationSchema),
-  projectController.createProject
+  experienceController.createExperience
 );
 router.put(
-  "/update-project/:id",
+  "/update-experience/:id",
   multerUpload.single("image"),
   parseBody,
   validateRequest(projectValidations.updateProjectValidationSchema),
-  projectController.updateProject
+  experienceController.updateExperience
 );
-router.delete("/:id", projectController.deleteProject);
-router.put("/status/:id", projectController.partialUpdateProject);
+router.delete("/:id", experienceController.deleteExperience);
+router.put("/status/:id", experienceController.partialUpdateExperience);
 
-router.get("/", projectController.getProject);
-router.get("/my-project/:id", projectController.getProject);
+router.get("/", experienceController.getExperience);
+router.get("/my-experience/:id", experienceController.getExperience);
 
-export const projectRouters = router;
+export const experienceRouters = router;

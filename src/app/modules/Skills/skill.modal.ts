@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { model, Schema } from "mongoose";
-import { IProject } from "./skill.interface";
+import { ISkill } from "./skill.interface";
 
-const projectSchema: Schema<IProject> = new Schema({
+const skillSchema: Schema<ISkill> = new Schema({
   title: {
     type: String,
     required: true,
@@ -13,45 +13,7 @@ const projectSchema: Schema<IProject> = new Schema({
     required: true,
     trim: true,
   },
-  // src: {
-  //   type: String,
-  //   required: true,
-  //   trim: true,
-  // },
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  frontendCode: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  backendCode: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
-  liveLink: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (v: any) {
-        return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
-    },
-  },
+
   imageUrl: {
     type: String,
     required: true,
@@ -70,15 +32,14 @@ const projectSchema: Schema<IProject> = new Schema({
   rank: {
     type: Number,
     required: false,
+    default: 0,
   },
-  features: {
-    type: [String],
-    required: true,
+  totalProjects: {
+    type: Number,
+    required: false,
+    default: 0,
   },
-  technologies: {
-    type: [String],
-    required: true,
-  },
+
   createdAt: {
     type: String,
     default: new Date().toString(),
@@ -97,4 +58,4 @@ const projectSchema: Schema<IProject> = new Schema({
   },
 });
 
-export const Project = model<IProject>("Project", projectSchema);
+export const Skill = model<ISkill>("Skill", skillSchema);

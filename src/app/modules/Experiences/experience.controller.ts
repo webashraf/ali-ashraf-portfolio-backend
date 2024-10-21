@@ -1,67 +1,71 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { projectService } from "./experience.service";
+import { experienceService } from "./experience.service";
 
-const createProject = catchAsync(async (req: Request, res: Response) => {
+const createExperience = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.createProjectIntoDB(req.body, image);
+  const result = await experienceService.createExperienceIntoDB(
+    req.body,
+    image
+  );
   res.status(200).json({
     success: true,
-    message: "Project is created successfully!",
+    message: "Experience is created successfully!",
     data: result,
   });
-  
 });
 // experience
-const updateProject = catchAsync(async (req: Request, res: Response) => {
+const updateExperience = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await projectService.updateProjectIntoDB(
+  const result = await experienceService.updateExperienceIntoDB(
     req.params.id,
     req.body,
     image
   );
   res.status(200).json({
     success: true,
-    message: "Project is updated successfully!",
+    message: "Experience is updated successfully!",
     data: result,
   });
 });
 
-const deleteProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.deleteProjectIntoDB(req.params.id);
+const deleteExperience = catchAsync(async (req: Request, res: Response) => {
+  const result = await experienceService.deleteExperienceIntoDB(req.params.id);
   res.status(200).json({
     success: true,
-    message: "Project is deleted successfully!",
+    message: "Experience is deleted successfully!",
     data: result,
   });
 });
 
-const partialUpdateProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.updateProjectPartialInfo(
-    req.params.id,
-    req.query
-  );
-  res.status(200).json({
-    success: true,
-    message: "Project status successfully updated!",
-    data: result,
-  });
-});
+const partialUpdateExperience = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await experienceService.updateExperiencePartialInfo(
+      req.params.id,
+      req.query
+    );
+    res.status(200).json({
+      success: true,
+      message: "Experience status successfully updated!",
+      data: result,
+    });
+  }
+);
 
-const getProject = catchAsync(async (req: Request, res: Response) => {
-  const result = await projectService.getProjectFromDB(req.query);
+const getExperience = catchAsync(async (req: Request, res: Response) => {
+  const result = await experienceService.getExperienceFromDB(req.query);
   res.status(200).json({
     success: true,
-    message: "Project successfully get!",
-    data: result.projects,
+    message: "Experience successfully get!",
+    data: result.Experiences,
     dataLength: result.dataLength,
   });
 });
 
-export const projectController = {
-  getProject,
-  createProject,
-  updateProject,
-  deleteProject,
-  partialUpdateProject,
+export const experienceController = {
+  getExperience,
+  createExperience,
+  updateExperience,
+  deleteExperience,
+  partialUpdateExperience,
 };

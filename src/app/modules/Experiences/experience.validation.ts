@@ -2,51 +2,40 @@ import { z } from "zod";
 
 const projectValidationSchema = z.object({
   body: z.object({
-    title: z.string().nonempty({ message: "Title is required" }),
-    description: z.string().nonempty({ message: "Description is required" }),
-    user: z.string().min(1, { message: "User is required" }),
-    // src: z.string().nonempty({ message: "Source is required" }),
-    frontendCode: z
-      .string()
-      .url({ message: "Frontend code must be a valid URL" }),
-    backendCode: z
-      .string()
-      .url({ message: "Backend code must be a valid URL" }),
-    color: z.string().optional(),
-    rank: z.number().optional(),
-    liveLink: z.string().url({ message: "Backend code must be a valid URL" }),
-
-    features: z
+    jobTitle: z.string().min(1, { message: "Job title is required" }),
+    companyName: z.string().min(1, { message: "Company name is required" }),
+    companyLogoUrl: z.string().url().optional().nullable(),
+    location: z.string().optional().nullable(),
+    startDate: z.string().min(1, { message: "Start date is required" }),
+    endDate: z.string().optional().nullable(),
+    responsibilities: z
       .array(z.string())
-      .nonempty({ message: "At least one feature is required" }),
-    technologies: z
+      .nonempty({ message: "At least one responsibility is required" }),
+    skills: z
       .array(z.string())
-      .nonempty({ message: "At least one technology is required" }),
+      .nonempty({ message: "At least one skill is required" }),
+    description: z.string().optional().nullable(),
+    websiteUrl: z.string().url().optional().nullable(),
+    rank: z
+      .number()
+      .int()
+      .min(0, { message: "Rank must be a non-negative integer" }),
   }),
 });
 
 const updateProjectValidationSchema = z.object({
   body: z.object({
-    title: z.string().optional(),
+    jobTitle: z.string().optional(),
+    companyName: z.string().optional(),
+    companyLogoUrl: z.string().url().optional(),
+    location: z.string().optional(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+    responsibilities: z.array(z.string()).optional(),
+    skills: z.array(z.string()).optional(),
     description: z.string().optional(),
-    user: z.string().min(1, { message: "User is required" }),
-    src: z.string().optional(),
-    frontendCode: z
-      .string()
-      .url({ message: "Frontend code must be a valid URL" })
-      .optional(),
-    backendCode: z
-      .string()
-      .url({ message: "Backend code must be a valid URL" })
-      .optional(),
-    liveLink: z
-      .string()
-      .url({ message: "Live link must be a valid URL" })
-      .optional(),
-    color: z.string().optional(),
-    rank: z.string().optional(),
-    features: z.array(z.string()).optional(),
-    technologies: z.array(z.string()).optional(),
+    websiteUrl: z.string().url().optional(),
+    rank: z.number().int().optional(),
   }),
 });
 
