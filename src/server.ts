@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
+import config from "./app/config";
 
 let server: Server;
 
@@ -9,10 +11,10 @@ async function main() {
   const port = 5000;
   try {
     await mongoose.connect(
-      "mongodb+srv://cookstoria:SQP7ayE5y10pkHxa@cluster0.8frxat4.mongodb.net/cookstoria?retryWrites=true&w=majority&appName=Cluster0"
+      `mongodb+srv://${config.db_user_name}:${config.db_Pass}@cluster0.37yfgb3.mongodb.net/ali-ashraf-portfolio-main?retryWrites=true&w=majority&appName=Cluster0`
     );
     server = app.listen(port, () => {
-      console.log(`cookstoria-culinary server running on port ${port}`);
+      console.log(`ali your server running on port ${port}`);
     });
   } catch (error: any) {
     console.log(error);

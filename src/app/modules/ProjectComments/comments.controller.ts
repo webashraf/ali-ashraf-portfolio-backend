@@ -1,5 +1,5 @@
 import catchAsync from "../../utils/catchAsync";
-import { userOpinionsServices } from "./recipeComments.service";
+import { userOpinionsServices } from "./comments.service";
 
 const createRecipeUserOpinion = catchAsync(async (req, res) => {
   const result =

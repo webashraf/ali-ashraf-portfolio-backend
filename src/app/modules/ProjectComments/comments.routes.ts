@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userOpinionsController } from "./recipeComments.controller";
+import { userOpinionsController } from "./comments.controller";
 
 const router = Router();
 

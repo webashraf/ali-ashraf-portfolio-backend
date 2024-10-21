@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IUserOpinions } from "./recipeComments.interface";
+import { IUserOpinions } from "./comments.interface";
 
 const userOpinionsSchema = new Schema<IUserOpinions>({
   postId: {

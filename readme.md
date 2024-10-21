@@ -1,6 +1,6 @@
-# CookstoriaCulinary Backend
+# Ali Ashraf Backend
 
-This is the backend server for CookstoriaCulinary, built using Express.js and MongoDB. The backend manages user authentication, recipe management, admin controls, and premium membership features. It follows a modular architecture and includes global error handling for a robust, maintainable structure.
+This is the backend server for Ali Ashraf, built using Express.js and MongoDB. The backend manages user authentication, recipe management, admin controls, and premium membership features. It follows a modular architecture and includes global error handling for a robust, maintainable structure.
 
 ## Features
 

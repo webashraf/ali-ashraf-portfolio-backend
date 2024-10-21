@@ -13,12 +13,12 @@ const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 // const corsOptions = {
 //   credentials: true,
-//   origin: ["https://cook-storia-culinary-frontend.vercel.app", "https://cook-storia-culinary-frontend.vercel.app"],
+//   origin: ["http://localhost:3000/"],
 // };
 // app.use(cors(corsOptions));
 const corsOptions = {
     credentials: true,
-    origin: ["https://cook-storia-culinary-frontend.vercel.app"],
+    origin: ["http://localhost:3000/"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 };
@@ -30,7 +30,7 @@ app.use(body_parser_1.default.urlencoded({ limit: "50mb", extended: true }));
 // routes
 app.use("/api/v1", routes_1.default);
 app.get("/", (req, res) => {
-    res.send("<h2 style='font-family: Arial, sans-serif; color: #4a4a4a; text-align: center; padding: 20px; background-color: #f0f0f0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>Hello! CookstoriaCulinary</h2>");
+    res.send("<h2 style='font-family: Arial, sans-serif; color: #4a4a4a; text-align: center; padding: 20px; background-color: #f0f0f0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>Hello! Ali Ashraf Portfolio</h2>");
 });
 // 404 handler
 app.use((req, res) => {

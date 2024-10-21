@@ -2,10 +2,10 @@
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
 import { User } from "../user/user.model";
-import { IRecipe } from "./recipe.interface";
-import { Recipe } from "./recipe.modal";
+import { IProject } from "./project.interface";
+import { Project } from "./project.modal";
 
-const createRecipeIntoDB = async (payload: IRecipe, image: any) => {
+const createPostIntoDB = async (payload: IProject, image: any) => {
   const recipeData = {
     ...payload,
     imageUrl: image,
@@ -18,34 +18,13 @@ const createRecipeIntoDB = async (payload: IRecipe, image: any) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const res = await Recipe.create(recipeData);
+  const res = await Project.create(recipeData);
   return res;
 };
 
-// const updateRecipeIntoDB = async (
-//   rId: string,
-//   payload: IRecipe,
-//   image: any
-// ) => {
-//   const recipeData = {
-//     ...payload,
-//     imageUrl: image || "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   };
-
-//   const isUserExist = await User.isUserExistById(payload.user as any);
-//   if (!isUserExist) {
-//     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
-//   }
-
-//   const res = await Recipe.findByIdAndUpdate(rId, recipeData);
-//   return res;
-// };
-
 const updateRecipeIntoDB = async (
   rId: string,
-  payload: Partial<IRecipe>,
+  payload: Partial<IProject>,
   image?: any
 ) => {
   const isUserExist = await User.isUserExistById(payload.user as any);
@@ -60,7 +39,7 @@ const updateRecipeIntoDB = async (
   };
 
   // Find and update the recipe
-  const updatedRecipe = await Recipe.findByIdAndUpdate(rId, recipeData, {
+  const updatedRecipe = await Project.findByIdAndUpdate(rId, recipeData, {
     new: true,
     runValidators: true,
   });
@@ -73,7 +52,7 @@ const updateRecipeIntoDB = async (
 };
 
 const deleteRecipeIntoDB = async (id: string) => {
-  const res = await Recipe.findByIdAndUpdate(
+  const res = await Project.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true, runValidators: true, upsert: true }
@@ -83,13 +62,13 @@ const deleteRecipeIntoDB = async (id: string) => {
 };
 
 const updateRecipePartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Recipe.findById(id);
+  const isRecipeExist: any = await Project.findById(id);
 
   if (!isRecipeExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
   }
 
-  const res = await Recipe.findByIdAndUpdate(id, query, {
+  const res = await Project.findByIdAndUpdate(id, query, {
     new: true,
     runValidators: true,
     upsert: true,
@@ -109,13 +88,13 @@ const getRecipeFromDB = async (query: Record<string, unknown>) => {
   if (query?.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const searchQuery = Recipe.find({
+  const searchQuery = Project.find({
     $or: ["title", "ingredients", "tags"].map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   });
 
-  const allRecipe = await Recipe.find();
+  const allRecipe = await Project.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -152,10 +131,10 @@ const getRecipeFromDB = async (query: Record<string, unknown>) => {
   return { recipes: filedLimitQuery, dataLength: allRecipe?.length };
 };
 
-export const recipeService = {
+export const projectService = {
   getRecipeFromDB,
   updateRecipeIntoDB,
-  createRecipeIntoDB,
+  createRecipeIntoDB: createPostIntoDB,
   deleteRecipeIntoDB,
   updateRecipePertialInfo: updateRecipePartialInfo,
 };

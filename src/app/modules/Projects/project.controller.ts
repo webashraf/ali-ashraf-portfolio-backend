@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { recipeService } from "./recipe.service";
+import { projectService } from "./project.service";
 
-const createRecipe = catchAsync(async (req: Request, res: Response) => {
+const createProject = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await recipeService.createRecipeIntoDB(req.body, image);
+  const result = await projectService.createRecipeIntoDB(req.body, image);
   res.status(200).json({
     success: true,
     message: "Recipe is created successfully!",
     data: result,
   });
 });
-const updateRecipe = catchAsync(async (req: Request, res: Response) => {
+const updateProject = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
-  const result = await recipeService.updateRecipeIntoDB(
+  const result = await projectService.updateRecipeIntoDB(
     req.params.id,
     req.body,
     image
@@ -25,8 +25,8 @@ const updateRecipe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
-  const result = await recipeService.deleteRecipeIntoDB(req.params.id);
+const deleteProject = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.deleteRecipeIntoDB(req.params.id);
   res.status(200).json({
     success: true,
     message: "Recipe is deleted successfully!",
@@ -34,8 +34,8 @@ const deleteRecipe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const partialUpdateRecipe = catchAsync(async (req: Request, res: Response) => {
-  const result = await recipeService.updateRecipePertialInfo(
+const partialUpdateProject = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.updateRecipePertialInfo(
     req.params.id,
     req.query
   );
@@ -46,8 +46,8 @@ const partialUpdateRecipe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getRecipe = catchAsync(async (req: Request, res: Response) => {
-  const result = await recipeService.getRecipeFromDB(req.query);
+const getProject = catchAsync(async (req: Request, res: Response) => {
+  const result = await projectService.getRecipeFromDB(req.query);
   res.status(200).json({
     success: true,
     message: "Recipe successfully get!",
@@ -56,10 +56,10 @@ const getRecipe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const recipeController = {
-  getRecipe,
-  createRecipe,
-  updateRecipe,
-  deleteRecipe,
-  partialUpdateRecipe,
+export const projectController = {
+  getProject,
+  createProject,
+  updateProject,
+  deleteProject,
+  partialUpdateProject,
 };

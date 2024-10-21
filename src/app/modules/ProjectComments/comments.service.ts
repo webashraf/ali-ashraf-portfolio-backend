@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import AppError from "../../error/appError";
-import { Recipe } from "../Recipe/recipe.modal";
+import { Recipe } from "../Projects/project.modal";
 import { User } from "../user/user.model";
-import { IUserOpinions } from "./recipeComments.interface";
-import { RecipeComments } from "./recipeComments.modal";
+import { IUserOpinions } from "./comments.interface";
+import { RecipeComments } from "./comments.modal";
 
 const createCommentUpDownVoteAndRatingsIntoDB = async (
   payload: IUserOpinions
