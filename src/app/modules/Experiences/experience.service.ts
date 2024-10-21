@@ -5,14 +5,14 @@ import { IExperience } from "./experience.interface";
 import { Experience } from "./experience.modal";
 
 const createExperienceIntoDB = async (payload: IExperience, image: any) => {
-  const recipeData = {
+  const ExperienceData = {
     ...payload,
-    imageUrl: image,
+    companyLogoUrl: image,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 
-  const res = await Experience.create(recipeData);
+  const res = await Experience.create(ExperienceData);
   return res;
 };
 
@@ -21,23 +21,27 @@ const updateExperienceIntoDB = async (
   payload: Partial<IExperience>,
   image?: any
 ) => {
-  const recipeData = {
+  const ExperienceData = {
     ...payload,
     ...(image && { imageUrl: image }),
     updatedAt: new Date(),
   };
 
-  // Find and update the recipe
-  const updatedRecipe = await Experience.findByIdAndUpdate(rId, recipeData, {
-    new: true,
-    runValidators: true,
-  });
+  // Find and update the Experience
+  const updatedExperience = await Experience.findByIdAndUpdate(
+    rId,
+    ExperienceData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  if (!updatedRecipe) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found");
+  if (!updatedExperience) {
+    throw new AppError(httpStatus.NOT_FOUND, "Experience not found");
   }
 
-  return updatedRecipe;
+  return updatedExperience;
 };
 
 const deleteExperienceIntoDB = async (id: string) => {
@@ -51,10 +55,10 @@ const deleteExperienceIntoDB = async (id: string) => {
 };
 
 const updateExperiencePartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Experience.findById(id);
+  const isExperienceExist: any = await Experience.findById(id);
 
-  if (!isRecipeExist) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
+  if (!isExperienceExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Experience not found!!");
   }
 
   const res = await Experience.findByIdAndUpdate(id, query, {
@@ -83,7 +87,7 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const allRecipe = await Experience.find();
+  const allExperience = await Experience.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -117,7 +121,7 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { Experiences: filedLimitQuery, dataLength: allRecipe?.length };
+  return { Experiences: filedLimitQuery, dataLength: allExperience?.length };
 };
 
 export const experienceService = {

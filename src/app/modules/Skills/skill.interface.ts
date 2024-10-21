@@ -10,3 +10,4 @@ export interface ISkill {
   isPublished: boolean;
   isDeleted: boolean;
 }
+

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const projectValidationSchema = z.object({
+const skillValidationSchema = z.object({
   body: z.object({
     title: z.string().nonempty({ message: "Title is required" }),
     description: z.string().nonempty({ message: "Description is required" }),
@@ -10,7 +10,7 @@ const projectValidationSchema = z.object({
   }),
 });
 
-const updateProjectValidationSchema = z.object({
+const updateSkillValidationSchema = z.object({
   body: z.object({
     title: z.string().optional(),
     description: z.string().optional(),
@@ -20,7 +20,7 @@ const updateProjectValidationSchema = z.object({
   }),
 });
 
-export const projectValidations = {
-  projectValidationSchema,
-  updateProjectValidationSchema,
+export const skillValidations = {
+  skillValidationSchema,
+  updateSkillValidationSchema,
 };

@@ -6,7 +6,7 @@ import { IBlog } from "./blog.interface";
 import { Blog } from "./blog.modal";
 
 const createBlogIntoDB = async (payload: IBlog, image: any) => {
-  const recipeData = {
+  const BlogData = {
     ...payload,
     imageUrl: image,
     createdAt: new Date(),
@@ -18,7 +18,7 @@ const createBlogIntoDB = async (payload: IBlog, image: any) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const res = await Blog.create(recipeData);
+  const res = await Blog.create(BlogData);
   return res;
 };
 
@@ -32,23 +32,23 @@ const updateBlogIntoDB = async (
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const recipeData = {
+  const BlogData = {
     ...payload,
     ...(image && { imageUrl: image }),
     updatedAt: new Date(),
   };
 
-  // Find and update the recipe
-  const updatedRecipe = await Blog.findByIdAndUpdate(rId, recipeData, {
+  // Find and update the Blog
+  const updatedBlog = await Blog.findByIdAndUpdate(rId, BlogData, {
     new: true,
     runValidators: true,
   });
 
-  if (!updatedRecipe) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found");
+  if (!updatedBlog) {
+    throw new AppError(httpStatus.NOT_FOUND, "Blog not found");
   }
 
-  return updatedRecipe;
+  return updatedBlog;
 };
 
 const deleteBlogIntoDB = async (id: string) => {
@@ -62,10 +62,10 @@ const deleteBlogIntoDB = async (id: string) => {
 };
 
 const updateBlogPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Blog.findById(id);
+  const isBlogExist: any = await Blog.findById(id);
 
-  if (!isRecipeExist) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
+  if (!isBlogExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Blog not found!!");
   }
 
   const res = await Blog.findByIdAndUpdate(id, query, {
@@ -94,7 +94,7 @@ const getBlogFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const allRecipe = await Blog.find();
+  const allBlog = await Blog.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -128,7 +128,7 @@ const getBlogFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { blogs: filedLimitQuery, dataLength: allRecipe?.length };
+  return { blogs: filedLimitQuery, dataLength: allBlog?.length };
 };
 
 export const projectService = {

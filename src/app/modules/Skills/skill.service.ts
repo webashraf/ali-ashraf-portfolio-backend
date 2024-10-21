@@ -5,7 +5,7 @@ import { ISkill } from "./skill.interface";
 import { Skill } from "./skill.modal";
 
 const createSkillIntoDB = async (payload: ISkill, image: any) => {
-  const recipeData = {
+  const SkillData = {
     ...payload,
     imageUrl: image,
     createdAt: new Date(),
@@ -17,7 +17,7 @@ const createSkillIntoDB = async (payload: ISkill, image: any) => {
   //   throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   // }
 
-  const res = await Skill.create(recipeData);
+  const res = await Skill.create(SkillData);
   return res;
 };
 
@@ -31,23 +31,23 @@ const updateSkillIntoDB = async (
   //   throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   // }
 
-  const recipeData = {
+  const SkillData = {
     ...payload,
     ...(image && { imageUrl: image }),
     updatedAt: new Date(),
   };
 
-  // Find and update the recipe
-  const updatedRecipe = await Skill.findByIdAndUpdate(rId, recipeData, {
+  // Find and update the Skill
+  const updatedSkill = await Skill.findByIdAndUpdate(rId, SkillData, {
     new: true,
     runValidators: true,
   });
 
-  if (!updatedRecipe) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found");
+  if (!updatedSkill) {
+    throw new AppError(httpStatus.NOT_FOUND, "Skill not found");
   }
 
-  return updatedRecipe;
+  return updatedSkill;
 };
 
 const deleteSkillIntoDB = async (id: string) => {
@@ -61,10 +61,10 @@ const deleteSkillIntoDB = async (id: string) => {
 };
 
 const updateSkillPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Skill.findById(id);
+  const isSkillExist: any = await Skill.findById(id);
 
-  if (!isRecipeExist) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
+  if (!isSkillExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Skill not found!!");
   }
 
   const res = await Skill.findByIdAndUpdate(id, query, {
@@ -93,7 +93,7 @@ const getSkillFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const allRecipe = await Skill.find();
+  const allSkill = await Skill.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -127,7 +127,7 @@ const getSkillFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { Skills: filedLimitQuery, dataLength: allRecipe?.length };
+  return { Skills: filedLimitQuery, dataLength: allSkill?.length };
 };
 
 export const skillService = {

@@ -6,7 +6,7 @@ import { IProject } from "./project.interface";
 import { Project } from "./project.modal";
 
 const createProjectIntoDB = async (payload: IProject, image: any) => {
-  const recipeData = {
+  const ProjectData = {
     ...payload,
     imageUrl: image,
     createdAt: new Date(),
@@ -18,7 +18,7 @@ const createProjectIntoDB = async (payload: IProject, image: any) => {
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const res = await Project.create(recipeData);
+  const res = await Project.create(ProjectData);
   return res;
 };
 
@@ -32,23 +32,23 @@ const updateProjectIntoDB = async (
     throw new AppError(httpStatus.UNAUTHORIZED, "User does not exist!!");
   }
 
-  const recipeData = {
+  const ProjectData = {
     ...payload,
     ...(image && { imageUrl: image }),
     updatedAt: new Date(),
   };
 
-  // Find and update the recipe
-  const updatedRecipe = await Project.findByIdAndUpdate(rId, recipeData, {
+  // Find and update the Project
+  const updatedProject = await Project.findByIdAndUpdate(rId, ProjectData, {
     new: true,
     runValidators: true,
   });
 
-  if (!updatedRecipe) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found");
+  if (!updatedProject) {
+    throw new AppError(httpStatus.NOT_FOUND, "Project not found");
   }
 
-  return updatedRecipe;
+  return updatedProject;
 };
 
 const deleteProjectIntoDB = async (id: string) => {
@@ -62,10 +62,10 @@ const deleteProjectIntoDB = async (id: string) => {
 };
 
 const updateProjectPartialInfo = async (id: string, query: any) => {
-  const isRecipeExist: any = await Project.findById(id);
+  const isProjectExist: any = await Project.findById(id);
 
-  if (!isRecipeExist) {
-    throw new AppError(httpStatus.NOT_FOUND, "Recipe not found!!");
+  if (!isProjectExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Project not found!!");
   }
 
   const res = await Project.findByIdAndUpdate(id, query, {
@@ -94,7 +94,7 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const allRecipe = await Project.find();
+  const allProject = await Project.find();
 
   // Filter query
   const filterQuery = searchQuery.find(filterQueryItems).populate("user");
@@ -128,7 +128,7 @@ const getProjectFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  return { projects: filedLimitQuery, dataLength: allRecipe?.length };
+  return { projects: filedLimitQuery, dataLength: allProject?.length };
 };
 
 export const projectService = {
