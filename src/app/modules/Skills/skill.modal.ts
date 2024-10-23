@@ -56,6 +56,11 @@ const skillSchema: Schema<ISkill> = new Schema({
     type: Boolean,
     default: false,
   },
+  level: {
+    type: String,
+    enum: ["expertise", "comfortable", "familiar", "tools", "interpersonal"],
+    required: true,
+  },
 });
 
 export const Skill = model<ISkill>("Skill", skillSchema);

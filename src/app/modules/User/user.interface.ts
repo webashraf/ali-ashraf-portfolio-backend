@@ -13,13 +13,6 @@ export interface TUser {
   isDeleted?: boolean;
   status?: "active" | "blocked";
   needsPasswordChange?: boolean;
-  isPremium?: boolean;
-  paymentStatus: {
-    success: boolean;
-    transaction: string;
-    amount: number;
-    date: string;
-  };
 }
 
 export type TUserRole = keyof typeof USER_ROLE;

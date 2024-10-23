@@ -82,7 +82,7 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
     searchTerm = query.searchTerm as string;
   }
   const searchQuery = Experience.find({
-    $or: ["title", "technologies"].map((field) => ({
+    $or: ["jobTitle", "location"].map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   });
@@ -90,7 +90,7 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
   const allExperience = await Experience.find();
 
   // Filter query
-  const filterQuery = searchQuery.find(filterQueryItems).populate("user");
+  const filterQuery = searchQuery.find(filterQueryItems);
 
   // sort
   let sort = "-rank";
@@ -120,6 +120,8 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
     fields = (query.fields as string).split(",").join(" ");
   }
   const filedLimitQuery = await limitQuery.select(fields);
+
+  console.log("Experiences", filedLimitQuery);
 
   return { Experiences: filedLimitQuery, dataLength: allExperience?.length };
 };

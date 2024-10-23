@@ -7,6 +7,13 @@ const skillValidationSchema = z.object({
     color: z.string().optional(),
     rank: z.number().optional(),
     totalProjects: z.number().optional(),
+    level: z.enum([
+      "expertise",
+      "comfortable",
+      "familiar",
+      "tools",
+      "interpersonal",
+    ]),
   }),
 });
 
@@ -17,6 +24,13 @@ const updateSkillValidationSchema = z.object({
     color: z.string().optional(),
     rank: z.number().optional(),
     totalProjects: z.number().optional(),
+    level: z.enum([
+      "expertise",
+      "comfortable",
+      "familiar",
+      "tools",
+      "interpersonal",
+    ]),
   }),
 });
 

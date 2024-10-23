@@ -96,10 +96,10 @@ const getSkillFromDB = async (query: Record<string, unknown>) => {
   const allSkill = await Skill.find();
 
   // Filter query
-  const filterQuery = searchQuery.find(filterQueryItems).populate("user");
+  const filterQuery = searchQuery.find(filterQueryItems);
 
   // sort
-  let sort = "-rank";
+  let sort = "rank";
   if (query?.sort) {
     sort = query.sort as string;
   }

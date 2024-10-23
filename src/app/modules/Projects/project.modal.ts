@@ -93,7 +93,7 @@ const projectSchema: Schema<IProject> = new Schema({
   },
   isPublished: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 

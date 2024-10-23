@@ -97,7 +97,7 @@ const getBlogFromDB = async (query: Record<string, unknown>) => {
   const allBlog = await Blog.find();
 
   // Filter query
-  const filterQuery = searchQuery.find(filterQueryItems).populate("user");
+  const filterQuery = searchQuery.find(filterQueryItems);
 
   // sort
   let sort = "-rank";

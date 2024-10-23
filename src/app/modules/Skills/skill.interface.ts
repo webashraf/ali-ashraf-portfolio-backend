@@ -9,5 +9,5 @@ export interface ISkill {
   updatedAt: string;
   isPublished: boolean;
   isDeleted: boolean;
+  level: "expertise" | "comfortable" | "familiar" | "tools" | "interpersonal";
 }
-
