@@ -10,13 +10,13 @@ const app: Application = express();
 
 // const corsOptions = {
 //   credentials: true,
-//   origin: ["http://localhost:3000/"],
+//   origin: ["http://localhost:3000/", "https://ali-ashraf.vercel.app"],
 // };
 // app.use(cors(corsOptions));
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:3000"],
+  origin: ["https://ali-ashraf.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 };

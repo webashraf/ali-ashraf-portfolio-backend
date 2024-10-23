@@ -121,8 +121,6 @@ const getExperienceFromDB = async (query: Record<string, unknown>) => {
   }
   const filedLimitQuery = await limitQuery.select(fields);
 
-  console.log("Experiences", filedLimitQuery);
-
   return { Experiences: filedLimitQuery, dataLength: allExperience?.length };
 };
 
