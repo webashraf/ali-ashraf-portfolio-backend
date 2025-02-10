@@ -4,13 +4,13 @@ import httpStatus from "http-status";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import AppError from "../../error/AppError";
+import { secureOTP } from "../../utils/generateOTP";
 import { sendEmail } from "../../utils/sendMail";
 import { User } from "../users/user.model";
 import { TLoginUser } from "./auth.interface";
 import { createToken, isPasswordMatched } from "./auth.utils";
 
 const loginUser = async (payload: TLoginUser) => {
-  sendEmail("web.ashraf2@gmail.com", 51123, "Hello! it's me");
   const user = await User.isUserExistByEmail(payload.email);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
@@ -58,6 +58,36 @@ const loginUser = async (payload: TLoginUser) => {
     refreshToken,
     needsPasswordChange: user?.needsPasswordChange,
   };
+};
+
+const sendAdminOTP = async ({ email }: { email: string }) => {
+  const user = await User.isUserExistByEmail(email);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+  }
+
+  const isDeleted = user?.isDeleted;
+
+  if (isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User is deleted!");
+  }
+
+  const userStatus = user?.status;
+
+  if (userStatus === "blocked") {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User is blocked!!");
+  }
+
+  const OTP = secureOTP();
+  console.log(OTP);
+
+  sendEmail(
+    "aliashraftamim@gmail.com, web.ashraf2@gmail.com",
+    OTP,
+    "Hello! it's me"
+  );
+
+  return "OTP send successfully!";
 };
 
 const changePasswordIntoDB = async (
@@ -182,9 +212,10 @@ const getAllAdminFromDB = async () => {
 };
 
 export const authServices = {
+  loginUser,
+  sendAdminOTP,
   getAllUsersFromDB,
   getAllAdminFromDB,
-  loginUser,
   changePasswordIntoDB,
   generateNewPassword: generateNewPassword,
   refreshTokenToAccessToken,
