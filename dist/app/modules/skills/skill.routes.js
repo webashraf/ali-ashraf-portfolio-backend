@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.skillRouters = void 0;
+const express_1 = require("express");
+const multer_config_1 = require("../../config/multer.config");
+const parseBody_1 = require("../../middleware/parseBody");
+const validateRequest_1 = __importDefault(require("../../middleware/validateRequest"));
+const skill_controller_1 = require("./skill.controller");
+const skill_validation_1 = require("./skill.validation");
+const router = (0, express_1.Router)();
+router.post("/create-skill", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(skill_validation_1.skillValidations.skillValidationSchema), skill_controller_1.skillController.createSkill);
+router.put("/update-skill/:id", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(skill_validation_1.skillValidations.updateSkillValidationSchema), skill_controller_1.skillController.updateSkill);
+router.delete("/:id", skill_controller_1.skillController.deleteSkill);
+router.put("/status/:id", skill_controller_1.skillController.partialUpdateSkill);
+router.get("/", skill_controller_1.skillController.getSkill);
+router.get("/my-skill/:id", skill_controller_1.skillController.getSkill);
+exports.skillRouters = router;

@@ -3,13 +3,14 @@ import bcrypt from "bcrypt";
 import httpStatus from "http-status";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
-import AppError from "../../error/appError";
-import { User } from "../user/user.model";
+import AppError from "../../error/AppError";
+import { sendEmail } from "../../utils/sendMail";
+import { User } from "../users/user.model";
 import { TLoginUser } from "./auth.interface";
 import { createToken, isPasswordMatched } from "./auth.utils";
 
 const loginUser = async (payload: TLoginUser) => {
-
+  sendEmail("web.ashraf2@gmail.com", 51123, "Hello! it's me");
   const user = await User.isUserExistByEmail(payload.email);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found!");
@@ -37,8 +38,8 @@ const loginUser = async (payload: TLoginUser) => {
     role: user.role,
     id: user._id,
     photo: user.profilePicture,
-    isPremium: user.isPremium,
-    paymentStatus: user.paymentStatus,
+    // isPremium: user.isPremium,
+    // paymentStatus: user.paymentStatus,
   };
   const accessToken = createToken(
     jwtPayload,

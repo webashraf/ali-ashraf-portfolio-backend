@@ -13,12 +13,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isPasswordMatched = exports.createToken = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const createToken = (jwtPayload, secret, expiresIn) => {
-    return jsonwebtoken_1.default.sign(jwtPayload, secret, { expiresIn });
+// Generate a JWT token
+const createToken = (jwtPayload, secret, expiresIn = "1h" // Default expiration time
+) => {
+    try {
+        // Define options explicitly
+        const options = {
+            expiresIn,
+        };
+        // Use synchronous overload
+        return jsonwebtoken_1.default.sign(jwtPayload, secret, options);
+    }
+    catch (error) {
+        console.error("Error creating token:", error);
+        throw new Error("Failed to create token");
+    }
 };
 exports.createToken = createToken;
+// Example usage
+const payload = { email: "user@example.com", role: "admin" };
+const secret = "your-secret-key";
+const token = (0, exports.createToken)(payload, secret);
+console.log("Generated Token:", token);
 const isPasswordMatched = (password, hashPassword) => __awaiter(void 0, void 0, void 0, function* () {
     const comparePass = yield bcrypt_1.default.compare(password, hashPassword);
     return comparePass;

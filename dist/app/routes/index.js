@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const auth_routes_1 = require("../modules/Auth/auth.routes");
-const recipe_routes_1 = require("../modules/Recipe/recipe.routes");
-const recipeComments_routes_1 = require("../modules/RecipeComments/recipeComments.routes");
-const socialConnection_routes_1 = require("../modules/socialConnection/socialConnection.routes");
-const user_routes_1 = require("../modules/user/user.routes");
+const auth_routes_1 = require("../modules/auth/auth.routes");
+const blog_routes_1 = require("../modules/blogs/blog.routes");
+const experience_routes_1 = require("../modules/experiences/experience.routes");
+const project_routes_1 = require("../modules/projects/project.routes");
+const skill_routes_1 = require("../modules/skills/skill.routes");
+const user_routes_1 = require("../modules/users/user.routes");
 const router = (0, express_1.Router)();
 const appRoutes = [
     {
@@ -17,16 +18,20 @@ const appRoutes = [
         route: auth_routes_1.authRoutes,
     },
     {
-        path: "/social",
-        route: socialConnection_routes_1.socialConnectivityRoutes,
+        path: "/skill",
+        route: skill_routes_1.skillRouters,
     },
     {
-        path: "/recipe",
-        route: recipe_routes_1.recipeRouters,
+        path: "/experience",
+        route: experience_routes_1.experienceRouters,
     },
     {
-        path: "/user-opinion",
-        route: recipeComments_routes_1.userOpinionRoutes,
+        path: "/blog",
+        route: blog_routes_1.blogRouters,
+    },
+    {
+        path: "/project",
+        route: project_routes_1.projectRouters,
     },
 ];
 appRoutes.forEach((aRoute) => {

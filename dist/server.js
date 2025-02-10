@@ -14,14 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
+const config_1 = __importDefault(require("./app/config"));
 let server;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const port = 5000;
         try {
-            yield mongoose_1.default.connect("mongodb+srv://cookstoria:SQP7ayE5y10pkHxa@cluster0.8frxat4.mongodb.net/cookstoria?retryWrites=true&w=majority&appName=Cluster0");
+            yield mongoose_1.default.connect(`mongodb+srv://${config_1.default.db_user_name}:${config_1.default.db_Pass}@cluster0.37yfgb3.mongodb.net/ali-ashraf-portfolio-main?retryWrites=true&w=majority&appName=Cluster0`);
             server = app_1.default.listen(port, () => {
-                console.log(`cookstoria-culinary server running on port ${port}`);
+                console.log(`ali your server running on port ${port}`);
             });
         }
         catch (error) {

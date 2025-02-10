@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import AppError from "../error/appError";
+import AppError from "../error/AppError";
 import catchAsync from "../utils/catchAsync";
 
 export const parseBody = catchAsync(async (req, res, next) => {

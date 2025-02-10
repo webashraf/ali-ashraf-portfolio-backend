@@ -3,18 +3,11 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
-import globalErrorHandler from "./app/middleware/glovalErrorHandalerMiddleware";
+import globalErrorHandler from "./app/middleware/globalErrorHandler.ts";
+import notFound from "./app/middleware/notFound";
 import router from "./app/routes";
 
 const app: Application = express();
-
-// const corsOptions = {
-//   credentials: true,
-//   origin: ["http://localhost:3000/", "https://ali-ashraf.vercel.app"],
-// };
-// app.use(cors(corsOptions));
-
-// Hello It's me...
 
 const corsOptions = {
   credentials: true,
@@ -22,12 +15,14 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 };
-app.use(cors(corsOptions));
 
+// Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
 // routes
 app.use("/api/v1", router);
 app.get("/", (req: Request, res: Response) => {
@@ -36,15 +31,9 @@ app.get("/", (req: Request, res: Response) => {
   );
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    statusCode: 404,
-    message: "Not Found This Route",
-  });
-});
-
+// Global error handler
 app.use(globalErrorHandler);
 
+// not found routes
+app.use(notFound);
 export default app;

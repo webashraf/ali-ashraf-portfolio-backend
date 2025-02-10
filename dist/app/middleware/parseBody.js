@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseBody = void 0;
 const http_status_1 = __importDefault(require("http-status"));
-const appError_1 = __importDefault(require("../error/appError"));
+const AppError_1 = __importDefault(require("../error/AppError"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 exports.parseBody = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.data) {
-        throw new appError_1.default(http_status_1.default.BAD_REQUEST, "Data not found!!");
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Data not found!!");
     }
     req.body = JSON.parse(req.body.data);
     next();

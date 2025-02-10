@@ -18,24 +18,24 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const http_status_1 = __importDefault(require("http-status"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
-const appError_1 = __importDefault(require("../../error/appError"));
-const user_model_1 = require("../user/user.model");
+const AppError_1 = __importDefault(require("../../error/AppError"));
+const user_model_1 = require("../users/user.model");
 const auth_utils_1 = require("./auth.utils");
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.isUserExistByEmail(payload.email);
     if (!user) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
     }
     const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
     if (isDeleted) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "User is deleted!");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "User is deleted!");
     }
     const userStatus = user === null || user === void 0 ? void 0 : user.status;
     if (userStatus === "blocked") {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "User is blocked!!");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "User is blocked!!");
     }
     if (!(yield (0, auth_utils_1.isPasswordMatched)(payload.password, user.password))) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "Don't match password!!");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Don't match password!!");
     }
     const jwtPayload = {
         name: user.username,
@@ -43,8 +43,8 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         role: user.role,
         id: user._id,
         photo: user.profilePicture,
-        isPremium: user.isPremium,
-        paymentStatus: user.paymentStatus,
+        // isPremium: user.isPremium,
+        // paymentStatus: user.paymentStatus,
     };
     const accessToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expire_in);
     const refreshToken = (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expire_in);
@@ -57,18 +57,18 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
 const changePasswordIntoDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.isUserExistById(userId);
     if (!user) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
     }
     const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
     if (isDeleted) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
     }
     const userStatus = user === null || user === void 0 ? void 0 : user.status;
     if (userStatus === "blocked") {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
     }
     if (!(yield (0, auth_utils_1.isPasswordMatched)(payload.oldPassword, user.password))) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "Don't match password!!");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Don't match password!!");
     }
     //hash new password
     const newHashedPassword = yield bcrypt_1.default.hash(payload.newPassword, Number(config_1.default.bcrypt_salt));
@@ -82,15 +82,15 @@ const changePasswordIntoDB = (userId, payload) => __awaiter(void 0, void 0, void
 const generateNewPassword = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.isUserExistByEmail(payload === null || payload === void 0 ? void 0 : payload.email);
     if (!user) {
-        throw new appError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
     }
     const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
     if (isDeleted) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
     }
     const userStatus = user === null || user === void 0 ? void 0 : user.status;
     if (userStatus === "blocked") {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
     }
     //hash new password
     const newHashedPassword = yield bcrypt_1.default.hash(payload.newPassword, Number(config_1.default.bcrypt_salt));
@@ -108,7 +108,7 @@ const refreshTokenToAccessToken = (token) => __awaiter(void 0, void 0, void 0, f
     const { email } = decoded;
     const user = yield user_model_1.User.isUserExistByEmail(email);
     if (!user) {
-        throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "User not found!");
+        throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "User not found!");
     }
     const jwtPayload = {
         email: user.email,

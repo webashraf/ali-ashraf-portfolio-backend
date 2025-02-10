@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.experienceRouters = void 0;
+const express_1 = require("express");
+const multer_config_1 = require("../../config/multer.config");
+const parseBody_1 = require("../../middleware/parseBody");
+const validateRequest_1 = __importDefault(require("../../middleware/validateRequest"));
+const experience_controller_1 = require("./experience.controller");
+const experience_validation_1 = require("./experience.validation");
+const router = (0, express_1.Router)();
+router.post("/create-experience", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(experience_validation_1.experienceValidations.experienceValidationSchema), experience_controller_1.experienceController.createExperience);
+router.put("/update-experience/:id", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(experience_validation_1.experienceValidations.updateExperienceValidationSchema), experience_controller_1.experienceController.updateExperience);
+router.delete("/:id", experience_controller_1.experienceController.deleteExperience);
+router.put("/status/:id", experience_controller_1.experienceController.partialUpdateExperience);
+router.get("/", experience_controller_1.experienceController.getExperience);
+router.get("/my-experience/:id", experience_controller_1.experienceController.getExperience);
+exports.experienceRouters = router;

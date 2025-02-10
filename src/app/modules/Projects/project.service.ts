@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
-import AppError from "../../error/appError";
-import { User } from "../user/user.model";
+import AppError from "../../error/AppError";
+import { User } from "../users/user.model";
 import { IProject } from "./project.interface";
 import { Project } from "./project.modal";
 

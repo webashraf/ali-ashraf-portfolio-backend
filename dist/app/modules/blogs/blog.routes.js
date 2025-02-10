@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.blogRouters = void 0;
+const express_1 = require("express");
+const multer_config_1 = require("../../config/multer.config");
+const parseBody_1 = require("../../middleware/parseBody");
+const validateRequest_1 = __importDefault(require("../../middleware/validateRequest"));
+const blog_controller_1 = require("./blog.controller");
+const blog_validation_1 = require("./blog.validation");
+const router = (0, express_1.Router)();
+router.post("/create-blog", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(blog_validation_1.projectValidations.projectValidationSchema), blog_controller_1.blogController.createBlog);
+router.put("/update-blog/:id", multer_config_1.multerUpload.single("image"), parseBody_1.parseBody, (0, validateRequest_1.default)(blog_validation_1.projectValidations.updateProjectValidationSchema), blog_controller_1.blogController.updateBlog);
+router.delete("/:id", blog_controller_1.blogController.deleteBlog);
+router.put("/status/:id", blog_controller_1.blogController.partialUpdateBlog);
+router.get("/", blog_controller_1.blogController.getBlog);
+router.get("/my-blog/:id", blog_controller_1.blogController.getBlog);
+exports.blogRouters = router;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
-import AppError from "../../error/appError";
+import AppError from "../../error/AppError";
 import { ISkill } from "./skill.interface";
 import { Skill } from "./skill.modal";
 

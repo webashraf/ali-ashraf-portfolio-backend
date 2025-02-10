@@ -4,6 +4,8 @@ import { projectService } from "./blog.service";
 
 const createBlog = catchAsync(async (req: Request, res: Response) => {
   const image = req?.file?.path;
+
+  console.log("Request body", req.body);
   const result = await projectService.createBlogIntoDB(req.body, image);
   res.status(200).json({
     success: true,

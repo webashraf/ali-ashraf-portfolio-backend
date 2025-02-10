@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
-import AppError from "../../error/appError";
-import { User } from "../user/user.model";
+import AppError from "../../error/AppError";
+import { User } from "../users/user.model";
 import { IBlog } from "./blog.interface";
 import { Blog } from "./blog.modal";
 
@@ -9,9 +9,8 @@ const createBlogIntoDB = async (payload: IBlog, image: any) => {
   const BlogData = {
     ...payload,
     imageUrl: image,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   };
+  console.log("Payload", payload);
 
   const isUserExist = await User.isUserExistById(payload.user as any);
   if (!isUserExist) {

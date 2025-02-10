@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { authRoutes } from "../modules/Auth/auth.routes";
-import { blogRouters } from "../modules/Blogs/blog.routes";
-import { experienceRouters } from "../modules/Experiences/experience.routes";
-import { userOpinionRoutes } from "../modules/ProjectComments/comments.routes";
-import { projectRouters } from "../modules/Projects/project.routes";
-import { skillRouters } from "../modules/Skills/skill.routes";
-import { userRoutes } from "../modules/user/user.routes";
+import { authRoutes } from "../modules/auth/auth.routes";
+import { blogRouters } from "../modules/blogs/blog.routes";
+import { experienceRouters } from "../modules/experiences/experience.routes";
+import { projectRouters } from "../modules/projects/project.routes";
+import { skillRouters } from "../modules/skills/skill.routes";
+import { userRoutes } from "../modules/users/user.routes";
 
 const router = Router();
 
@@ -34,10 +33,6 @@ const appRoutes = [
   {
     path: "/project",
     route: projectRouters,
-  },
-  {
-    path: "/user-opinion",
-    route: userOpinionRoutes,
   },
 ];
 

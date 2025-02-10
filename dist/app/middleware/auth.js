@@ -15,37 +15,37 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http_status_1 = __importDefault(require("http-status"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-const appError_1 = __importDefault(require("../error/appError"));
-const user_model_1 = require("../modules/user/user.model");
+const AppError_1 = __importDefault(require("../error/AppError"));
+const user_model_1 = require("../modules/users/user.model");
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
         if (!token) {
-            throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized!");
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized!");
         }
         let decoded;
         try {
             decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_access_secret);
         }
         catch (err) {
-            throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "Unauthorized for this user!!!");
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Unauthorized for this user!!!");
         }
         const { email, role } = decoded;
         const user = yield user_model_1.User.isUserExistByEmail(email);
         if (!user) {
-            throw new appError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
+            throw new AppError_1.default(http_status_1.default.NOT_FOUND, "This user is not found !");
         }
         const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
         if (isDeleted) {
-            throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is deleted !");
         }
         const userStatus = user === null || user === void 0 ? void 0 : user.status;
         if (userStatus === "blocked") {
-            throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "This user is blocked ! !");
         }
         if (requiredRoles && !requiredRoles.includes(role)) {
-            throw new appError_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized  hi!");
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized  hi!");
         }
         next();
     }));
